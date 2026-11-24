@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container text-center">
+        <span class="badge">Who We Are</span>
+        <h1 class="page-title">Building With Clarity &amp; Craftsmanship</h1>
+        <p class="page-subtitle">
+            We are dedicated to crafting simple, resilient, and lightweight web applications that prioritize user experience and developer joy.
+        </p>
+    </div>
+</section>
+
+<!-- Mission & Story -->
+<section class="section about-story-section">
+    <div class="container">
+        <div class="story-grid">
+            <div class="story-content">
+                <span class="section-tag">Our Mission</span>
+                <h2 class="section-title">Bringing Web Development Back to Fundamentals</h2>
+                <p>
+                    Modern web development often introduces thousands of dependencies, complex build pipelines, and hundreds of megabytes of configuration before writing a single line of business logic.
+                </p>
+                <p>
+                    <strong>FlaskCraft</strong> was built on a different philosophy: powerful web applications can be lightweight, fast, and remarkably easy to understand. By combining Python's expressive syntax with Flask's battle-tested micro-framework architecture, we deliver robust solutions that run anywhere in seconds.
+                </p>
+                <div class="story-quote">
+                    <blockquote>
+                        "Simplicity is prerequisite for reliability."
+                    </blockquote>
+                    <cite>— Edsger W. Dijkstra</cite>
+                </div>
+            </div>
+
+            <div class="story-cards-side">
+                <div class="info-card">
+                    <div class="info-icon">🎯</div>
+                    <h3>Our Vision</h3>
+                    <p>
+                        To empower developers and businesses to launch web projects swiftly with transparent code, zero bloat, and delightful design.
+                    </p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🌱</div>
+                    <h3>Sustainable Tech</h3>
+                    <p>
+                        Lightweight code means less computational overhead, lower server energy consumption, and blazing-fast loading on any device or network.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Key Stats Counter -->
+<section class="section stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            {% for stat in stats %}
+                <div class="stat-card text-center">
+                    <div class="stat-number">{{ stat.value }}</div>
+                    <div class="stat-label">{{ stat.label }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="section values-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Guiding Principles</span>
+            <h2 class="section-title">What Drives Every Decision</h2>
+            <p class="section-subtitle">
+                The standards and mindset that inform our architecture, interface designs, and code quality.
+            </p>
+        </div>
+
+        <div class="grid grid-3 values-grid">
+            {% for value in team_values %}
+                <div class="card value-card">
+                    <div class="value-number">0{{ loop.index }}</div>
+                    <h3 class="value-title">{{ value.title }}</h3>
+                    <p class="value-text">{{ value.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- About CTA -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-card text-center">
+            <h2 class="cta-title">Want to Collaborate or Chat?</h2>
+            <p class="cta-subtitle">
+                We're always excited to connect with developers, teams, and visionaries. Reach out directly!
+            </p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">Go to Contact Page</a>
+                <a href="{{ url_for('home') }}" class="btn btn-outline btn-lg">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

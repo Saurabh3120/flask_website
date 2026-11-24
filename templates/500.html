@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section error-section text-center">
+    <div class="container">
+        <div class="error-box">
+            <div class="error-code">500</div>
+            <h1 class="error-title">Internal Server Error</h1>
+            <p class="error-desc">
+                Something went wrong on our end. Please try refreshing the page or try again in a few moments.
+            </p>
+            <div class="error-actions">
+                <a href="{{ url_for('home') }}" class="btn btn-primary">Return to Homepage</a>
+                <a href="{{ url_for('contact') }}" class="btn btn-outline">Report Issue</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

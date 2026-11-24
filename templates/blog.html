@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container text-center">
+        <span class="badge">Insights &amp; Articles</span>
+        <h1 class="page-title">FlaskCraft Blog</h1>
+        <p class="page-subtitle">
+            Tutorials, deep dives, and perspectives on Python web architecture, responsive CSS, and software design.
+        </p>
+    </div>
+</section>
+
+<!-- Blog Main Section -->
+<section class="section blog-section">
+    <div class="container">
+        <!-- Filter Toolbar -->
+        <div class="blog-toolbar">
+            <div class="category-pills">
+                <a href="{{ url_for('blog') }}" class="pill {% if not current_category %}active{% endif %}">
+                    All Topics ({{ posts|length }})
+                </a>
+                {% for cat in categories %}
+                    <a href="{{ url_for('blog', category=cat['category']) }}" class="pill {% if current_category == cat['category'] %}active{% endif %}">
+                        {{ cat['category'] }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="blog-actions">
+                {% if current_user %}
+                    <a href="{{ url_for('create_post') }}" class="btn btn-primary btn-sm">
+                        ✏️ Write New Article
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-outline btn-sm">
+                        Sign in to Write an Article
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Blog Cards Grid -->
+        {% if posts %}
+            <div class="grid grid-3 blog-grid">
+                {% for post in posts %}
+                    <article class="card blog-card">
+                        <div class="blog-card-top">
+                            <span class="badge blog-badge">{{ post['category'] }}</span>
+                            <span class="blog-date">{{ post['created_at'][:10] }}</span>
+                        </div>
+                        <h2 class="blog-card-title">
+                            <a href="{{ url_for('blog_detail', id=post['id']) }}">{{ post['title'] }}</a>
+                        </h2>
+                        <p class="blog-card-excerpt">
+                            {{ post['content']|truncate(140) }}
+                        </p>
+                        <div class="blog-card-footer">
+                            <div class="blog-author">
+                                <span class="author-dot">👤</span>
+                                <span>{{ post['author_name'] }}</span>
+                            </div>
+                            <a href="{{ url_for('blog_detail', id=post['id']) }}" class="read-more-link">
+                                Read More &rarr;
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card empty-inbox-card text-center">
+                <div class="empty-icon">📖</div>
+                <h3>No Articles Found</h3>
+                <p>No articles published in this category yet. Be the first to publish one!</p>
+                {% if current_user %}
+                    <a href="{{ url_for('create_post') }}" class="btn btn-primary">Write Article Now</a>
+                {% else %}
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary">Create Account to Publish</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container hero-container">
+        <div class="hero-content">
+            <span class="badge hero-badge">🚀 Powered by Python Flask</span>
+            <h1 class="hero-title">
+                Clean, Fast &amp; Modern <span class="gradient-text">Websites</span> Made Simple
+            </h1>
+            <p class="hero-description">
+                Experience the beauty of minimalist engineering. Built with a rock-solid Python Flask backend, structured Jinja2 templates, and responsive, accessible CSS design.
+            </p>
+            <div class="hero-actions">
+                <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">Get in Touch</a>
+                <a href="{{ url_for('about') }}" class="btn btn-secondary btn-lg">Explore Our Story</a>
+            </div>
+            <div class="hero-highlights">
+                <div class="highlight-item">
+                    <span class="highlight-check">✓</span> Python 3.10+ &amp; Flask
+                </div>
+                <div class="highlight-item">
+                    <span class="highlight-check">✓</span> Zero Heavy Frameworks
+                </div>
+                <div class="highlight-item">
+                    <span class="highlight-check">✓</span> 100% Mobile Ready
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="mockup-window">
+                <div class="mockup-header">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                    <span class="mockup-address">127.0.0.1:5000</span>
+                </div>
+                <div class="mockup-body">
+                    <div class="code-preview">
+                        <p class="code-line"><span class="code-keyword">from</span> flask <span class="code-keyword">import</span> Flask, render_template</p>
+                        <p class="code-line">app = Flask(__name__)</p>
+                        <p class="code-line">&nbsp;</p>
+                        <p class="code-line"><span class="code-decorator">@app.route</span>(<span class="code-str">'/'</span>)</p>
+                        <p class="code-line"><span class="code-keyword">def</span> <span class="code-func">home</span>():</p>
+                        <p class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> render_template(<span class="code-str">'index.html'</span>)</p>
+                        <p class="code-line">&nbsp;</p>
+                        <p class="code-line code-status"><span class="status-indicator"></span> Status: 200 OK • Latency: 12ms</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Grid Section -->
+<section class="section features-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Key Features</span>
+            <h2 class="section-title">Engineered for Elegance &amp; Speed</h2>
+            <p class="section-subtitle">
+                Everything you need to launch a production-ready web presence without bloated dependencies.
+            </p>
+        </div>
+
+        <div class="grid grid-4 feature-grid">
+            {% for feature in features %}
+                <div class="card feature-card">
+                    <div class="feature-icon-wrapper">{{ feature.icon }}</div>
+                    <h3 class="feature-title">{{ feature.title }}</h3>
+                    <p class="feature-desc">{{ feature.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Architecture / Highlights Section -->
+<section class="section highlights-section">
+    <div class="container">
+        <div class="highlight-box">
+            <div class="highlight-text">
+                <span class="section-tag">Template Architecture</span>
+                <h2 class="section-title">Modular Jinja2 Inheritance</h2>
+                <p class="section-subtitle">
+                    Maintainable, DRY (Don't Repeat Yourself) templates with shared headers, footers, meta tags, and flash alert messaging.
+                </p>
+                <ul class="check-list">
+                    <li><strong>Base Template (`base.html`):</strong> Consistent branding, mobile navigation drawer, and dynamic flash toasts.</li>
+                    <li><strong>Content Pages:</strong> Dedicated views for Home, About, and Contact with clean semantic markup.</li>
+                    <li><strong>Custom Error Views:</strong> User-friendly 404 and 500 pages that keep visitors engaged.</li>
+                </ul>
+                <div class="highlight-cta">
+                    <a href="{{ url_for('about') }}" class="btn btn-primary">Learn More About Us &rarr;</a>
+                </div>
+            </div>
+            <div class="highlight-cards-visual">
+                <div class="stacked-card card-1">
+                    <div class="card-tag">Route</div>
+                    <code>GET /</code>
+                    <p>Home Page with Hero &amp; Feature Grid</p>
+                </div>
+                <div class="stacked-card card-2">
+                    <div class="card-tag">Route</div>
+                    <code>GET /about</code>
+                    <p>Mission, Team Values &amp; Impact Stats</p>
+                </div>
+                <div class="stacked-card card-3">
+                    <div class="card-tag">Route</div>
+                    <code>GET / POST /contact</code>
+                    <p>Interactive Form with Validation &amp; Flash Feedback</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-card text-center">
+            <h2 class="cta-title">Ready to Connect With Us?</h2>
+            <p class="cta-subtitle">
+                Whether you have a question, a project in mind, or just want to say hello, we are here to help.
+            </p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">Send a Message</a>
+                <a href="{{ url_for('about') }}" class="btn btn-outline btn-lg">Read Our Story</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

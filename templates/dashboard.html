@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="dashboard-header-flex">
+            <div>
+                <span class="badge">🔒 User Dashboard</span>
+                <h1 class="page-title">Welcome, {{ current_user['name'] }}!</h1>
+                <p class="page-subtitle">Manage your account profile, publish blog articles, and review received contact inquiries.</p>
+            </div>
+            <div class="dashboard-header-actions">
+                <a href="{{ url_for('create_post') }}" class="btn btn-primary">
+                    ✏️ Write New Article
+                </a>
+                <a href="{{ url_for('view_messages') }}" class="btn btn-secondary">
+                    🗄️ Messages Inbox
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline btn-sm">
+                    🚪 Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard Main Content -->
+<section class="section dashboard-section">
+    <div class="container">
+        <!-- Stats Row -->
+        <div class="grid grid-4 dashboard-stats-grid">
+            <div class="card stat-widget-card">
+                <div class="widget-icon">📝</div>
+                <div class="widget-details">
+                    <span class="widget-number">{{ total_posts }}</span>
+                    <span class="widget-label">Published Articles</span>
+                </div>
+            </div>
+
+            <div class="card stat-widget-card">
+                <div class="widget-icon">📬</div>
+                <div class="widget-details">
+                    <span class="widget-number">{{ messages_count }}</span>
+                    <span class="widget-label">Received Messages</span>
+                </div>
+            </div>
+
+            <div class="card stat-widget-card">
+                <div class="widget-icon">👥</div>
+                <div class="widget-details">
+                    <span class="widget-number">{{ total_users }}</span>
+                    <span class="widget-label">Registered Users</span>
+                </div>
+            </div>
+
+            <div class="card stat-widget-card">
+                <div class="widget-icon">🛡️</div>
+                <div class="widget-details">
+                    <span class="widget-status-badge">Active &bull; Secure</span>
+                    <span class="widget-label">PBKDF2 Protection</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Column Layout: Profile Card + Recent Messages -->
+        <div class="dashboard-main-grid">
+            <!-- Left: Profile Details & My Articles -->
+            <div class="dashboard-col-left">
+                <div class="card profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            {{ current_user['name'][0]|upper }}
+                        </div>
+                        <div>
+                            <h3 class="profile-name">{{ current_user['name'] }}</h3>
+                            <span class="profile-role">Registered Author</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-list">
+                        <div class="profile-info-item">
+                            <span class="info-label">Email Address</span>
+                            <span class="info-value">{{ current_user['email'] }}</span>
+                        </div>
+                        <div class="profile-info-item">
+                            <span class="info-label">Account ID</span>
+                            <span class="info-value">#{{ current_user['id'] }}</span>
+                        </div>
+                        <div class="profile-info-item">
+                            <span class="info-label">Member Since</span>
+                            <span class="info-value">{{ current_user['created_at'] }}</span>
+                        </div>
+                        <div class="profile-info-item">
+                            <span class="info-label">Password Protection</span>
+                            <span class="info-value text-success">Werkzeug PBKDF2 Hash ✓</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <a href="{{ url_for('create_post') }}" class="btn btn-primary btn-block">
+                            ✏️ Write New Article
+                        </a>
+                    </div>
+                </div>
+
+                <!-- My Published Articles Widget -->
+                <div class="card my-articles-card">
+                    <div class="card-header-simple">
+                        <h3>My Articles ({{ my_posts|length }})</h3>
+                        <a href="{{ url_for('blog') }}" class="text-sm">Explore Blog &rarr;</a>
+                    </div>
+                    {% if my_posts %}
+                        <div class="my-articles-list">
+                            {% for post in my_posts %}
+                                <div class="my-article-item">
+                                    <div>
+                                        <a href="{{ url_for('blog_detail', id=post['id']) }}" class="my-article-title">
+                                            {{ post['title'] }}
+                                        </a>
+                                        <span class="sub-detail">{{ post['created_at'][:10] }} &bull; {{ post['category'] }}</span>
+                                    </div>
+                                    <form action="{{ url_for('delete_post', id=post['id']) }}" method="POST" onsubmit="return confirm('Delete this article?');">
+                                        <button type="submit" class="btn btn-delete btn-sm" title="Delete">🗑️</button>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-sm">You haven't written any articles yet.</p>
+                        <a href="{{ url_for('create_post') }}" class="btn btn-outline btn-sm btn-block" style="margin-top: 0.75rem;">
+                            Publish Your First Article
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right: Recent Messages Preview -->
+            <div class="card recent-messages-card">
+                <div class="recent-messages-header">
+                    <h3>Recent Contact Messages</h3>
+                    <a href="{{ url_for('view_messages') }}" class="btn btn-outline btn-sm">View All ({{ messages_count }}) &rarr;</a>
+                </div>
+
+                {% if recent_messages %}
+                    <div class="recent-messages-list">
+                        {% for msg in recent_messages %}
+                            <div class="recent-msg-item">
+                                <div class="recent-msg-top">
+                                    <strong>{{ msg['name'] }}</strong>
+                                    <span class="recent-msg-time">{{ msg['created_at'] }}</span>
+                                </div>
+                                <div class="recent-msg-subject">{{ msg['subject'] }}</div>
+                                <p class="recent-msg-snippet">{{ msg['message']|truncate(100) }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-recent text-center">
+                        <p>No messages received yet. Submit a message from the Contact page!</p>
+                        <a href="{{ url_for('contact') }}" class="btn btn-primary btn-sm">Go to Contact Form</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

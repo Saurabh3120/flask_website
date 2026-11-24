@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<article class="article-detail-section">
+    <div class="container article-container">
+        <!-- Breadcrumb Navigation -->
+        <nav class="article-breadcrumb" aria-label="Breadcrumb">
+            <a href="{{ url_for('home') }}">Home</a> &rsaquo;
+            <a href="{{ url_for('blog') }}">Blog</a> &rsaquo;
+            <span>{{ post['category'] }}</span>
+        </nav>
+
+        <header class="article-header">
+            <span class="badge blog-badge">{{ post['category'] }}</span>
+            <h1 class="article-title">{{ post['title'] }}</h1>
+
+            <div class="article-meta">
+                <div class="article-author-info">
+                    <div class="author-avatar-sm">
+                        {{ post['author_name'][0]|upper }}
+                    </div>
+                    <div>
+                        <div class="meta-author-name">By {{ post['author_name'] }}</div>
+                        <div class="meta-date">Published on {{ post['created_at'] }}</div>
+                    </div>
+                </div>
+
+                {% if current_user and current_user['id'] == post['author_id'] %}
+                    <form action="{{ url_for('delete_post', id=post['id']) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                        <button type="submit" class="btn btn-delete btn-sm">🗑️ Delete Article</button>
+                    </form>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- Article Body -->
+        <div class="article-body">
+            {{ post['content']|replace('\n', '<br>')|safe }}
+        </div>
+
+        <!-- Article Footer / Navigation -->
+        <div class="article-footer">
+            <a href="{{ url_for('blog') }}" class="btn btn-secondary">
+                &larr; Back to All Articles
+            </a>
+            {% if current_user %}
+                <a href="{{ url_for('create_post') }}" class="btn btn-primary">
+                    Write Another Article &rarr;
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</article>
+{% endblock %}

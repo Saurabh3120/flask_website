@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container text-center">
+        <span class="badge">Get In Touch</span>
+        <h1 class="page-title">We’d Love to Hear From You</h1>
+        <p class="page-subtitle">
+            Have questions, feedback, or a partnership inquiry? Fill out the form below or reach us directly.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Form and Details Section -->
+<section class="section contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Left Column: Contact Information -->
+            <div class="contact-info-panel">
+                <span class="section-tag">Direct Channels</span>
+                <h2 class="section-title">Let’s Start a Conversation</h2>
+                <p class="contact-intro">
+                    Our team is based globally and typically responds within 24 hours during business days.
+                </p>
+
+                <div class="contact-methods">
+                    <div class="contact-method-item">
+                        <div class="method-icon">📍</div>
+                        <div class="method-details">
+                            <h4>Headquarters</h4>
+                            <p>100 Innovation Way, Suite 400<br>San Francisco, CA 94105</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method-item">
+                        <div class="method-icon">✉️</div>
+                        <div class="method-details">
+                            <h4>Email Us</h4>
+                            <p><a href="mailto:hello@flaskcraft.example.com">hello@flaskcraft.example.com</a></p>
+                            <p class="sub-detail">For press &amp; partnerships: press@flaskcraft.example.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method-item">
+                        <div class="method-icon">📞</div>
+                        <div class="method-details">
+                            <h4>Phone Support</h4>
+                            <p><a href="tel:+18005550199">+1 (800) 555-0199</a></p>
+                            <p class="sub-detail">Mon - Fri: 9:00 AM – 6:00 PM EST</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Help Box -->
+                <div class="contact-tip-box">
+                    <div class="tip-badge">🗄️ SQLite Database Active</div>
+                    <p>
+                        Every submission is saved directly to your local <code>database.db</code>. You can view all received messages anytime in the <a href="{{ url_for('view_messages') }}">Messages Inbox</a>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Contact Form -->
+            <div class="contact-form-panel">
+                <div class="form-card">
+                    <div class="form-header">
+                        <h3>Send Us a Message</h3>
+                        <p>Fill out the fields below and we’ll get back to you promptly.</p>
+                    </div>
+
+                    <form action="{{ url_for('contact') }}" method="POST" class="contact-form" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name" class="form-label">
+                                    Full Name <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    name="name" 
+                                    class="form-control" 
+                                    placeholder="Jane Doe" 
+                                    value="{{ form_data.get('name', '') }}" 
+                                    required
+                                    autocomplete="name"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">
+                                    Email Address <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    class="form-control" 
+                                    placeholder="jane@example.com" 
+                                    value="{{ form_data.get('email', '') }}" 
+                                    required
+                                    autocomplete="email"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">
+                                Subject / Topic <span class="required">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="subject" 
+                                name="subject" 
+                                class="form-control" 
+                                placeholder="e.g. Inquiring about website deployment" 
+                                value="{{ form_data.get('subject', '') }}" 
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">
+                                Your Message <span class="required">*</span>
+                            </label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                class="form-control" 
+                                rows="5" 
+                                placeholder="Write your message details here..." 
+                                required
+                            >{{ form_data.get('message', '') }}</textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block submit-btn" id="submitBtn">
+                            <span>Send Message</span>
+                            <span class="btn-arrow">&rarr;</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section faq-section" id="faq">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Frequently Asked</span>
+            <h2 class="section-title">Common Questions</h2>
+            <p class="section-subtitle">
+                Quick answers to the most common questions about this application.
+            </p>
+        </div>
+
+        <div class="grid grid-2 faq-grid">
+            <div class="card faq-card">
+                <h4>How do I run this website locally?</h4>
+                <p>Install Flask using <code>pip install -r requirements.txt</code> and run <code>python app.py</code>. The server runs at <code>http://127.0.0.1:5000/</code>.</p>
+            </div>
+            <div class="card faq-card">
+                <h4>Is this template mobile responsive?</h4>
+                <p>Yes! It uses a modern CSS system with fluid grid layouts, flexible media queries, and a custom mobile drawer navigation.</p>
+            </div>
+            <div class="card faq-card">
+                <h4>Where do form submissions go?</h4>
+                <p>The form data is validated and safely inserted into the local SQLite database (<code>database.db</code>). You can view, manage, and delete all records in the <a href="{{ url_for('view_messages') }}">Inbox</a>.</p>
+            </div>
+            <div class="card faq-card">
+                <h4>Can I add more pages?</h4>
+                <p>Easily! Create a new template extending <code>base.html</code>, add a route function in <code>app.py</code> with <code>@app.route('/your-page')</code>, and add it to the navbar.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

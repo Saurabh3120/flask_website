@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container text-center">
+        <span class="badge">SQLite Database</span>
+        <h1 class="page-title">Received Messages Inbox</h1>
+        <p class="page-subtitle">
+            All messages submitted through the Contact form are stored directly in your local <code>database.db</code> SQLite table.
+        </p>
+    </div>
+</section>
+
+<!-- Messages Section -->
+<section class="section messages-section">
+    <div class="container">
+        <!-- Top Toolbar -->
+        <div class="inbox-toolbar">
+            <div class="inbox-summary">
+                <span class="inbox-count-badge">{{ messages|length }} Total Messages</span>
+                <span class="inbox-db-label">Database: <code>database.db</code> &bull; Table: <code>messages</code></span>
+            </div>
+            <div class="inbox-actions">
+                <a href="{{ url_for('contact') }}" class="btn btn-outline btn-sm">+ Send New Test Message</a>
+            </div>
+        </div>
+
+        {% if messages %}
+            <div class="messages-list">
+                {% for msg in messages %}
+                    <div class="card message-card">
+                        <div class="message-header">
+                            <div class="message-sender">
+                                <div class="sender-avatar">
+                                    {{ msg['name'][0]|upper if msg['name'] else '?' }}
+                                </div>
+                                <div class="sender-info">
+                                    <h3 class="sender-name">{{ msg['name'] }}</h3>
+                                    <a href="mailto:{{ msg['email'] }}" class="sender-email">{{ msg['email'] }}</a>
+                                </div>
+                            </div>
+                            <div class="message-meta">
+                                <span class="message-time">🕒 {{ msg['created_at'] }}</span>
+                                <span class="message-id">#{{ msg['id'] }}</span>
+                            </div>
+                        </div>
+
+                        <div class="message-body">
+                            <h4 class="message-subject">{{ msg['subject'] }}</h4>
+                            <p class="message-text">{{ msg['message'] }}</p>
+                        </div>
+
+                        <div class="message-footer">
+                            <a href="mailto:{{ msg['email'] }}?subject=Re: {{ msg['subject'] }}" class="btn btn-secondary btn-sm">
+                                ✉️ Reply via Email
+                            </a>
+                            <form action="{{ url_for('delete_message', id=msg['id']) }}" method="POST" class="delete-form" onsubmit="return confirm('Are you sure you want to delete message #{{ msg['id'] }} from SQLite database?');">
+                                <button type="submit" class="btn btn-delete btn-sm" aria-label="Delete message">
+                                    🗑️ Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="card empty-inbox-card text-center">
+                <div class="empty-icon">📬</div>
+                <h3>No Messages in Database Yet</h3>
+                <p>
+                    Your SQLite database is active and ready. Go to the Contact page and submit a message to see it appear here instantly!
+                </p>
+                <div class="empty-action">
+                    <a href="{{ url_for('contact') }}" class="btn btn-primary">Go to Contact Form &rarr;</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
